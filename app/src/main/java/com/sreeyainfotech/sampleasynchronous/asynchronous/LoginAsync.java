@@ -1,8 +1,11 @@
-package com.sreeyainfotech.sampleasynchronous;
+package com.sreeyainfotech.sampleasynchronous.asynchronous;
 
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
+
+import com.sreeyainfotech.sampleasynchronous.interfaces.LoginAsyncResponse;
+import com.sreeyainfotech.sampleasynchronous.network.NetworkCalls;
 
 import org.json.JSONException;
 import org.json.JSONObject;

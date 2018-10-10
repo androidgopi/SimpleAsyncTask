@@ -8,16 +8,19 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.sreeyainfotech.sampleasynchronous.asynchronous.LoginAsync;
+import com.sreeyainfotech.sampleasynchronous.interfaces.LoginAsyncResponse;
+import com.sreeyainfotech.sampleasynchronous.network.WebServices;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
 public class LoginActivitty extends AppCompatActivity {
 
-    private EditText email,password;
+    private EditText email, password;
     LoginAsync LoginAsync_async;
     private String Login_Url;
     private Button login;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,22 +32,33 @@ public class LoginActivitty extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               onBackPressed();
+                onBackPressed();
             }
         });
-        email=(EditText)findViewById(R.id.email);
-        password=(EditText)findViewById(R.id.password);
-Login_Url="http://iphone.us2guntur.com/AndroidAppLoginService";
+        email = (EditText) findViewById(R.id.email);
+        password = (EditText) findViewById(R.id.password);
+      //  Login_Url = "http://iphone.us2guntur.com/AndroidAppLoginService";
 
-        login=(Button)findViewById(R.id.login);
+        login = (Button) findViewById(R.id.login);
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loginAction();
+
+                try {
+                    if (WebServices.isNetworkAvailable(getApplicationContext()) == false) {
+                        Toast.makeText(getApplicationContext(), "Please check your Internet Connection", Toast.LENGTH_LONG).show();
+                    } else {
+                        loginAction();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
             }
         });
 
     }
+
     public void loginAction() {
 
         final JSONObject json = new JSONObject();
@@ -54,17 +68,18 @@ Login_Url="http://iphone.us2guntur.com/AndroidAppLoginService";
             json.put("appname", "us2gandroidapp");
             json.put("app_devicetoken", "");
 
-            LoginAsync_async = new LoginAsync(LoginActivitty.this, Login_Url, json);
+           // LoginAsync_async = new LoginAsync(LoginActivitty.this, Login_Url, json);
+            LoginAsync_async = new LoginAsync(LoginActivitty.this, WebServices.LOGIN_URL, json);
             LoginAsync_async.execute();
             LoginAsync_async.delegate = new LoginAsyncResponse() {
                 @Override
                 public void loginAsyncResponse(JSONObject result) {
                     try {
-                        if(result!=null) {
+                        if (result != null) {
                             if (result.has("friendsdetails") && result.has("loginstatus") && result.getString("loginstatus").equals("success")) {
                                 Toast.makeText(getApplicationContext(), "Login successful", Toast.LENGTH_LONG).show();
-                                }
-                        }else {
+                            }
+                        } else {
                             Toast.makeText(getApplicationContext(), "Login failed", Toast.LENGTH_LONG).show();
                         }
                     } catch (Exception e) {
@@ -78,7 +93,6 @@ Login_Url="http://iphone.us2guntur.com/AndroidAppLoginService";
         }
 
     }
-
 
 
 }

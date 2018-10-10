@@ -1,4 +1,4 @@
-package com.sreeyainfotech.sampleasynchronous;
+package com.sreeyainfotech.sampleasynchronous.network;
 
 import android.content.Context;
 import android.util.Log;

@@ -1,4 +1,4 @@
-package com.sreeyainfotech.sampleasynchronous;
+package com.sreeyainfotech.sampleasynchronous.interfaces;
 
 import org.json.JSONObject;
 

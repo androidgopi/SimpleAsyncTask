@@ -32,6 +32,9 @@
             android:name=".LoginActivitty"
             android:label="@string/title_activity_login_activitty"
             android:theme="@style/AppTheme" />
+
+        <activity android:name=".GetListActivity" />
+        <activity android:name=".CategoryActivity" />
     </application>
 
 </manifest>
